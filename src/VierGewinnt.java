@@ -20,6 +20,8 @@ public class VierGewinnt {
             spielerwechsel();
             spielsteinSetzen();
             printfield();
+            Gewinnbedingung();
+
         } while (true);
     }
 
@@ -77,14 +79,14 @@ public class VierGewinnt {
         } // end of if-else
 
         // Prüfen der Eingabe auf einen Wert zwischen 1 und 7
-        spalte = Integer.parseInt(EingabeA);
+        spalte = Integer.parseInt(EingabeA) - 1;
 
 
-        if (spalte < 1 || spalte > 7) {
+        if (spalte < 0 || spalte > 6) {
             System.out.println();
             System.out.println("Die eingegebene Spaltennummer muss zwischen 1 und 7 liegen!");
             spalteneingabe();
-        } else if (spalteFuellstand[spalte - 1] > 5) {
+        } else if (spalteFuellstand[spalte] > 5) {
             System.out.println("Spalte voll!!!!");
             spalteneingabe();
         }
@@ -92,12 +94,68 @@ public class VierGewinnt {
 
     private static void spielsteinSetzen() {
         int startHöhe = 5;
-        int höheNeuerSpielstein = startHöhe - spalteFuellstand[spalte - 1];
+        int höheNeuerSpielstein = startHöhe - spalteFuellstand[spalte];
         if (spielerEins == true) {
             spielFeld[höheNeuerSpielstein][spalte] = 1;
         } else {
             spielFeld[höheNeuerSpielstein][spalte] = 2;
         }
-        spalteFuellstand[spalte - 1] = spalteFuellstand[spalte - 1] + 1;
+        spalteFuellstand[spalte] = spalteFuellstand[spalte] + 1;
+    }
+
+    private static void Gewinnbedingung() {
+        Scanner systemInputScanner = new Scanner(System.in);
+        boolean a = false;
+        int s;
+        if (spielerEins == true) {
+            s = 1;
+        } else {
+            s = 2;
+        }
+
+        for (int i = 0; i <= 2; i++) //vertikal
+            for (int j = 0; j <= 6; j++) {
+                if (spielFeld[i][j] == s && spielFeld[i + 1][j] == s && spielFeld[i + 2][j] == s && spielFeld[i + 3][j] == s) {
+                    a = true;
+                }
+            }
+
+
+        for (int i = 0; i <= 5; i++) //Horizontal
+            for (int j = 0; j <= 3; j++) {
+                if (spielFeld[i][j] == s && spielFeld[i][j + 1] == s && spielFeld[i][j + 2] == s && spielFeld[i][j + 3] == s) {
+                    a = true;
+                }
+            }
+
+
+        for (int i = 0; i <= 2; i++)  //Diagonal
+            for (int j = 0; j <= 3; j++) {
+                if (spielFeld[i][j] == s && spielFeld[i + 1][j + 1] == s && spielFeld[i + 2][j + 2] == s && spielFeld[i + 3][j + 3] == s) {
+                    a = true;
+                }
+            }
+
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 6; j > 2; j--) {
+                if (spielFeld[i][j] == s && spielFeld[i + 1][j - 1] == s && spielFeld[i + 2][j - 2] == s && spielFeld[i + 3][j - 3] == s) {
+                    a = true;
+                }
+            }
+        }
+
+        if (a == true) {
+            System.out.println("Gewonnen hat Spieler " + s);
+            System.out.println("Weiterspielen (0) oder Beenden (1)");
+            String EingabeEnde = systemInputScanner.nextLine();
+            int Eingabe = Integer.parseInt(EingabeEnde);
+            if (Eingabe == 1) {
+                System.exit(0);
+            } else if (Eingabe == 0) {
+
+                printfield();
+            }
+        }
     }
 }
