@@ -12,20 +12,46 @@ public class VierGewinnt {
     static int spalte = 0;
     static int zeilenCounter;
     static int spaltenCounter;
+    static Player player1 = new Player();
+    static Player player2 = new Player();
+
 
     public static void main(String[] args) {
+        for (int i = 0; i < 1; i++) {
+            playerDefinition();
+        }
         do {
             printfield();
             spalteneingabe();
             spielerwechsel();
             spielsteinSetzen();
             printfield();
-            Gewinnbedingung();
+            gewinnbedingung();
 
         } while (true);
     }
 
-    private static void printfield() {
+    public static void playerDefinition() {
+        Scanner systemInputScanner = new Scanner(System.in);
+        System.out.println("Spieler1 nenne deinen Namen:");
+        String namePlayer1 = systemInputScanner.nextLine();
+        player1.setName(namePlayer1);
+
+        System.out.println("Spieler2 nenne deinen Namen:");
+        String namePlayer2 = systemInputScanner.nextLine();
+        player2.setName(namePlayer2);
+
+        System.out.println("Spieler1 wähle einen Token:");
+        String tokenPlayer1 = systemInputScanner.nextLine();
+        player1.setToken(tokenPlayer1);
+
+        System.out.println("Spieler2 wähle einen Token:");
+        String tokenPlayer2 = systemInputScanner.nextLine();
+        player2.setToken(tokenPlayer2);
+    }
+
+
+    public static void printfield() {
         // Ausgabe des Spielfelds
 
 
@@ -41,9 +67,9 @@ public class VierGewinnt {
                 if (spielFeld[zeilenCounter][spaltenCounter] == 0) {
                     System.out.print("| " + " " + " ");
                 } else if (spielFeld[zeilenCounter][spaltenCounter] == 1) {
-                    System.out.print("| " + "X" + " ");
+                    System.out.print("| " + player1.getToken() + " ");
                 } else if (spielFeld[zeilenCounter][spaltenCounter] == 2) {
-                    System.out.print("| " + "O" + " ");
+                    System.out.print("| " + player2.getToken() + " ");
                 }
 
             }
@@ -62,24 +88,24 @@ public class VierGewinnt {
 
     } // end of private static void Spielerwechsel
 
-    private static void spalteneingabe() {
+    public static void spalteneingabe() {
 
         Scanner systemInputScanner = new Scanner(System.in);
 
         // Spalteneingabe durch Spieler eins oder zwei
-        String EingabeA;
+        String eingabe;
 
-        if (spielerEins == true) {
-            System.out.print("Spieler 1: Bitte Spaltennummer angeben: ");
-            EingabeA = systemInputScanner.nextLine();
+        if (spielerEins) {
+            System.out.print(player2.getName() + " bitte gib die Spaltennummer an: ");
+            eingabe = systemInputScanner.nextLine();
         } // end of if
         else {
-            System.out.println("Spieler 2: Bitte Spaltennummer angeben: ");
-            EingabeA = systemInputScanner.nextLine();
+            System.out.println(player1.getName() + " bitte gib die Spaltennummer an: ");
+            eingabe = systemInputScanner.nextLine();
         } // end of if-else
 
         // Prüfen der Eingabe auf einen Wert zwischen 1 und 7
-        spalte = Integer.parseInt(EingabeA) - 1;
+        spalte = Integer.parseInt(eingabe) - 1;
 
 
         if (spalte < 0 || spalte > 6) {
@@ -87,7 +113,7 @@ public class VierGewinnt {
             System.out.println("Die eingegebene Spaltennummer muss zwischen 1 und 7 liegen!");
             spalteneingabe();
         } else if (spalteFuellstand[spalte] > 5) {
-            System.out.println("Spalte voll!!!!");
+            System.out.println("Spalte ist voll!!!!");
             spalteneingabe();
         }
     }
@@ -103,51 +129,59 @@ public class VierGewinnt {
         spalteFuellstand[spalte] = spalteFuellstand[spalte] + 1;
     }
 
-    private static void Gewinnbedingung() {
+    public static void gewinnbedingung() {
         Scanner systemInputScanner = new Scanner(System.in);
-        boolean a = false;
-        int s;
-        if (spielerEins == true) {
-            s = 1;
+        //i = spalte j = reihe
+        boolean hasWon = false;
+        int spieler;
+        if (spielerEins) {
+            spieler = 1;
         } else {
-            s = 2;
+            spieler = 2;
         }
 
-        for (int i = 0; i <= 2; i++) //vertikal
-            for (int j = 0; j <= 6; j++) {
-                if (spielFeld[i][j] == s && spielFeld[i + 1][j] == s && spielFeld[i + 2][j] == s && spielFeld[i + 3][j] == s) {
-                    a = true;
+        for (int spalte = 0; spalte <= 2; spalte++) //vertikal
+            for (int reihe = 0; reihe <= 6; reihe++) {
+                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe] == spieler && spielFeld[spalte + 2][reihe] == spieler && spielFeld[spalte + 3][reihe] == spieler) {
+                    hasWon = true;
                 }
             }
 
 
-        for (int i = 0; i <= 5; i++) //Horizontal
-            for (int j = 0; j <= 3; j++) {
-                if (spielFeld[i][j] == s && spielFeld[i][j + 1] == s && spielFeld[i][j + 2] == s && spielFeld[i][j + 3] == s) {
-                    a = true;
+        for (int spalte = 0; spalte <= 5; spalte++) //Horizontal
+            for (int reihe = 0; reihe <= 3; reihe++) {
+                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte][reihe + 1] == spieler && spielFeld[spalte][reihe + 2] == spieler && spielFeld[spalte][reihe + 3] == spieler) {
+                    hasWon = true;
                 }
             }
 
 
-        for (int i = 0; i <= 2; i++)  //Diagonal
-            for (int j = 0; j <= 3; j++) {
-                if (spielFeld[i][j] == s && spielFeld[i + 1][j + 1] == s && spielFeld[i + 2][j + 2] == s && spielFeld[i + 3][j + 3] == s) {
-                    a = true;
+        for (int spalte = 0; spalte <= 2; spalte++)  //Diagonal
+            for (int reihe = 0; reihe <= 3; reihe++) {
+                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe + 1] == spieler && spielFeld[spalte + 2][reihe + 2] == spieler && spielFeld[spalte + 3][reihe + 3] == spieler) {
+                    hasWon = true;
                 }
             }
 
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 6; j > 2; j--) {
-                if (spielFeld[i][j] == s && spielFeld[i + 1][j - 1] == s && spielFeld[i + 2][j - 2] == s && spielFeld[i + 3][j - 3] == s) {
-                    a = true;
+        for (int spalte = 0; spalte < 3; spalte++) {
+            for (int reihe = 6; reihe > 2; reihe--) {
+                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe - 1] == spieler && spielFeld[spalte + 2][reihe - 2] == spieler && spielFeld[spalte + 3][reihe - 3] == spieler) {
+                    hasWon = true;
                 }
             }
         }
 
-        if (a == true) {
-            System.out.println("Gewonnen hat Spieler " + s);
-            System.out.println("Weiterspielen (0) oder Beenden (1)");
+        if (spieler == 1 ) {
+            System.out.println(player1.getName() + " hat gewonnen");
+        }
+        else {
+            System.out.println(player2.getName() + " hat gewonnen");
+        }
+
+        if (hasWon) {
+
+            System.out.println("Wenn du Weiterspielen möchtest drücke (0) zum Beenden drücke die (1)");
             String EingabeEnde = systemInputScanner.nextLine();
             int Eingabe = Integer.parseInt(EingabeEnde);
             if (Eingabe == 1) {
