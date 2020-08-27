@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class VierGewinnt {
-    static int[][] spielFeld = new int[6][7]; // 6 Zeilen, 7 Spalten
+    static int[][] spielFeld = new int[6][7];
     static int zeilen = spielFeld.length;
     static int spalten = 7;
 
@@ -20,7 +20,9 @@ public class VierGewinnt {
         for (int i = 0; i < 1; i++) {
             playerDefinition();
         }
-        do {
+
+
+        while (true) {
             printfield();
             spalteneingabe();
             spielerwechsel();
@@ -28,7 +30,7 @@ public class VierGewinnt {
             printfield();
             gewinnbedingung();
 
-        } while (true);
+        }
     }
 
     public static void playerDefinition() {
@@ -83,29 +85,30 @@ public class VierGewinnt {
     }
 
     private static void spielerwechsel() {
-        // Spielerwechsel
-        spielerEins = !spielerEins;
 
-    } // end of private static void Spielerwechsel
+        spielerEins = !spielerEins;
+    }
 
     public static void spalteneingabe() {
 
         Scanner systemInputScanner = new Scanner(System.in);
 
-        // Spalteneingabe durch Spieler eins oder zwei
         String eingabe;
 
         if (spielerEins) {
-            System.out.print(player2.getName() + " bitte gib die Spaltennummer an: ");
+            System.out.print(player2.getName() + " bitte gib die gewünschte Spaltennummer an: ");
             eingabe = systemInputScanner.nextLine();
-        } // end of if
-        else {
-            System.out.println(player1.getName() + " bitte gib die Spaltennummer an: ");
+        } else {
+            System.out.println(player1.getName() + " bitte gib die gewünschte Spaltennummer an: ");
             eingabe = systemInputScanner.nextLine();
-        } // end of if-else
+        }
 
-        // Prüfen der Eingabe auf einen Wert zwischen 1 und 7
-        spalte = Integer.parseInt(eingabe) - 1;
+        try {
+            spalte = Integer.parseInt(eingabe) - 1;
+        } catch (NumberFormatException exception){
+            System.out.println("Exception flog");
+            spalteneingabe();
+        }
 
 
         if (spalte < 0 || spalte > 6) {
@@ -118,10 +121,10 @@ public class VierGewinnt {
         }
     }
 
-    private static void spielsteinSetzen() {
+    public static void spielsteinSetzen() {
         int startHöhe = 5;
         int höheNeuerSpielstein = startHöhe - spalteFuellstand[spalte];
-        if (spielerEins == true) {
+        if (spielerEins) {
             spielFeld[höheNeuerSpielstein][spalte] = 1;
         } else {
             spielFeld[höheNeuerSpielstein][spalte] = 2;
@@ -131,7 +134,7 @@ public class VierGewinnt {
 
     public static void gewinnbedingung() {
         Scanner systemInputScanner = new Scanner(System.in);
-        //i = spalte j = reihe
+
         boolean hasWon = false;
         int spieler;
         if (spielerEins) {
@@ -144,6 +147,7 @@ public class VierGewinnt {
             for (int reihe = 0; reihe <= 6; reihe++) {
                 if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe] == spieler && spielFeld[spalte + 2][reihe] == spieler && spielFeld[spalte + 3][reihe] == spieler) {
                     hasWon = true;
+                    break;
                 }
             }
 
@@ -152,6 +156,7 @@ public class VierGewinnt {
             for (int reihe = 0; reihe <= 3; reihe++) {
                 if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte][reihe + 1] == spieler && spielFeld[spalte][reihe + 2] == spieler && spielFeld[spalte][reihe + 3] == spieler) {
                     hasWon = true;
+                    break;
                 }
             }
 
@@ -160,6 +165,7 @@ public class VierGewinnt {
             for (int reihe = 0; reihe <= 3; reihe++) {
                 if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe + 1] == spieler && spielFeld[spalte + 2][reihe + 2] == spieler && spielFeld[spalte + 3][reihe + 3] == spieler) {
                     hasWon = true;
+                    break;
                 }
             }
 
@@ -168,14 +174,14 @@ public class VierGewinnt {
             for (int reihe = 6; reihe > 2; reihe--) {
                 if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe - 1] == spieler && spielFeld[spalte + 2][reihe - 2] == spieler && spielFeld[spalte + 3][reihe - 3] == spieler) {
                     hasWon = true;
+                    break;
                 }
             }
         }
 
-        if (spieler == 1 ) {
+        if (spieler == 1) {
             System.out.println(player1.getName() + " hat gewonnen");
-        }
-        else {
+        } else {
             System.out.println(player2.getName() + " hat gewonnen");
         }
 
@@ -183,12 +189,19 @@ public class VierGewinnt {
 
             System.out.println("Wenn du Weiterspielen möchtest drücke (0) zum Beenden drücke die (1)");
             String EingabeEnde = systemInputScanner.nextLine();
-            int Eingabe = Integer.parseInt(EingabeEnde);
-            if (Eingabe == 1) {
+            int eingabe = Integer.parseInt(EingabeEnde);
+            if (eingabe == 1) {
                 System.exit(0);
-            } else if (Eingabe == 0) {
+            } else if (eingabe == 0) {
 
-                printfield();
+                for (int reihe = 0; reihe < spielFeld.length; reihe++) {
+                    for (int spalte = 0; spalte < spielFeld[reihe].length; spalte++) {
+                        spielFeld[reihe][spalte] = 0;
+                        spalteFuellstand[spalte] = 0 ;
+
+                    }
+                }
+                spalte = 0;
             }
         }
     }
