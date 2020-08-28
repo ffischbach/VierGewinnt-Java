@@ -1,17 +1,17 @@
 import java.util.Scanner;
 
 public class VierGewinnt {
-    static int[][] spielFeld = new int[6][7];
-    static int zeilen = spielFeld.length;
-    static int spalten = 7;
+    static int[][] playground = new int[6][7];
+    static int rows = playground.length;
+    static int columns = 7;
 
-    static int[] spalteFuellstand = new int[7];
+    static int[] columnFillLevel = new int[7];
 
-    static boolean spielerEins = true;
+    static boolean playerOne = true;
 
-    static int spalte = 0;
-    static int zeilenCounter;
-    static int spaltenCounter;
+    static int column = 0;
+    static int rowCounter;
+    static int columnCounter;
     static Player player1 = new Player();
     static Player player2 = new Player();
 
@@ -23,54 +23,53 @@ public class VierGewinnt {
 
 
         while (true) {
-            printfield();
-            spalteneingabe();
-            spielerwechsel();
-            spielsteinSetzen();
-            printfield();
-            gewinnbedingung();
+            printField();
+            chooseColumn();
+            playerRotation();
+            setToken();
+            printField();
+            winCondition();
 
         }
     }
 
     public static void playerDefinition() {
         Scanner systemInputScanner = new Scanner(System.in);
-        System.out.println("Spieler1 nenne deinen Namen:");
+        System.out.println("Player 1 Please type your Name:");
         String namePlayer1 = systemInputScanner.nextLine();
         player1.setName(namePlayer1);
 
-        System.out.println("Spieler2 nenne deinen Namen:");
+        System.out.println("Player 2 Please type your Name:");
         String namePlayer2 = systemInputScanner.nextLine();
         player2.setName(namePlayer2);
 
-        System.out.println("Spieler1 wähle einen Token:");
+        System.out.println("Player 1 Please set your Token:");
         String tokenPlayer1 = systemInputScanner.nextLine();
         player1.setToken(tokenPlayer1);
 
-        System.out.println("Spieler2 wähle einen Token:");
+        System.out.println("Player 2 Please set your Token:");
         String tokenPlayer2 = systemInputScanner.nextLine();
         player2.setToken(tokenPlayer2);
     }
 
 
-    public static void printfield() {
-        // Ausgabe des Spielfelds
+    public static void printField() {
 
 
         System.out.println("|   |   |   |   |   |   |   |");
         System.out.println("| 1 | 2 | 3 | 4 | 5 | 6 | 7 |");
         System.out.println("|___|___|___|___|___|___|___|");
 
-        for (zeilenCounter = 0; zeilenCounter < zeilen; zeilenCounter++) {
+        for (rowCounter = 0; rowCounter < rows; rowCounter++) {
             System.out.println("|   |   |   |   |   |   |   |");
 
-            for (spaltenCounter = 0; spaltenCounter < spalten; spaltenCounter++) {
+            for (columnCounter = 0; columnCounter < columns; columnCounter++) {
 
-                if (spielFeld[zeilenCounter][spaltenCounter] == 0) {
+                if (playground[rowCounter][columnCounter] == 0) {
                     System.out.print("| " + " " + " ");
-                } else if (spielFeld[zeilenCounter][spaltenCounter] == 1) {
+                } else if (playground[rowCounter][columnCounter] == 1) {
                     System.out.print("| " + player1.getToken() + " ");
-                } else if (spielFeld[zeilenCounter][spaltenCounter] == 2) {
+                } else if (playground[rowCounter][columnCounter] == 2) {
                     System.out.print("| " + player2.getToken() + " ");
                 }
 
@@ -84,124 +83,130 @@ public class VierGewinnt {
         System.out.println();
     }
 
-    private static void spielerwechsel() {
+    private static void playerRotation() {
 
-        spielerEins = !spielerEins;
+        playerOne = !playerOne;
     }
 
-    public static void spalteneingabe() {
+    public static void chooseColumn() {
 
         Scanner systemInputScanner = new Scanner(System.in);
 
-        String eingabe;
+        String input;
 
-        if (spielerEins) {
-            System.out.print(player2.getName() + " bitte gib die gewünschte Spaltennummer an: ");
-            eingabe = systemInputScanner.nextLine();
+        if (playerOne) {
+            System.out.print(player2.getName() + " please choose your column : ");
+            input = systemInputScanner.nextLine();
         } else {
-            System.out.println(player1.getName() + " bitte gib die gewünschte Spaltennummer an: ");
-            eingabe = systemInputScanner.nextLine();
+            System.out.println(player1.getName() + " please choose your column : ");
+            input = systemInputScanner.nextLine();
         }
 
         try {
-            spalte = Integer.parseInt(eingabe) - 1;
-        } catch (NumberFormatException exception){
-            System.out.println("Exception flog");
-            spalteneingabe();
+            column = Integer.parseInt(input) - 1;
+        } catch (NumberFormatException exception) {
+            System.out.println("Letters are not allowed please choose a Number between 1 and 7!!!");
+            chooseColumn();
         }
 
 
-        if (spalte < 0 || spalte > 6) {
+        if (column < 0 || column > 6) {
             System.out.println();
-            System.out.println("Die eingegebene Spaltennummer muss zwischen 1 und 7 liegen!");
-            spalteneingabe();
-        } else if (spalteFuellstand[spalte] > 5) {
-            System.out.println("Spalte ist voll!!!!");
-            spalteneingabe();
+            System.out.println("Please choose a Number between 1 and 7!!!");
+            chooseColumn();
+        } else if (columnFillLevel[column] > 5) {
+            System.out.println("Column is full!!!");
+            chooseColumn();
         }
     }
 
-    public static void spielsteinSetzen() {
-        int startHöhe = 5;
-        int höheNeuerSpielstein = startHöhe - spalteFuellstand[spalte];
-        if (spielerEins) {
-            spielFeld[höheNeuerSpielstein][spalte] = 1;
+    public static void setToken() {
+        int startHeight = 5;
+        int heightNewToken = startHeight - columnFillLevel[column];
+        if (playerOne) {
+            playground[heightNewToken][column] = 1;
         } else {
-            spielFeld[höheNeuerSpielstein][spalte] = 2;
+            playground[heightNewToken][column] = 2;
         }
-        spalteFuellstand[spalte] = spalteFuellstand[spalte] + 1;
+        columnFillLevel[column] = columnFillLevel[column] + 1;
     }
 
-    public static void gewinnbedingung() {
+    public static void winCondition() {
         Scanner systemInputScanner = new Scanner(System.in);
 
         boolean hasWon = false;
-        int spieler;
-        if (spielerEins) {
-            spieler = 1;
+        int Player;
+        if (playerOne) {
+            Player = 1;
         } else {
-            spieler = 2;
+            Player = 2;
         }
 
-        for (int spalte = 0; spalte <= 2; spalte++) //vertikal
-            for (int reihe = 0; reihe <= 6; reihe++) {
-                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe] == spieler && spielFeld[spalte + 2][reihe] == spieler && spielFeld[spalte + 3][reihe] == spieler) {
+        for (int columnCheck = 0; columnCheck <= 2; columnCheck++) //vertical
+            for (int rowCheck = 0; rowCheck <= 6; rowCheck++) {
+                if (playground[columnCheck][rowCheck] == Player && playground[columnCheck + 1][rowCheck] == Player && playground[columnCheck + 2][rowCheck] == Player && playground[columnCheck + 3][rowCheck] == Player) {
                     hasWon = true;
                     break;
                 }
             }
 
 
-        for (int spalte = 0; spalte <= 5; spalte++) //Horizontal
-            for (int reihe = 0; reihe <= 3; reihe++) {
-                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte][reihe + 1] == spieler && spielFeld[spalte][reihe + 2] == spieler && spielFeld[spalte][reihe + 3] == spieler) {
+        for (int columnCheck = 0; columnCheck <= 5; columnCheck++) //Horizontal
+            for (int rowCheck = 0; rowCheck <= 3; rowCheck++) {
+                if (playground[columnCheck][rowCheck] == Player && playground[columnCheck][rowCheck + 1] == Player && playground[columnCheck][rowCheck + 2] == Player && playground[columnCheck][rowCheck + 3] == Player) {
                     hasWon = true;
                     break;
                 }
             }
 
 
-        for (int spalte = 0; spalte <= 2; spalte++)  //Diagonal
-            for (int reihe = 0; reihe <= 3; reihe++) {
-                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe + 1] == spieler && spielFeld[spalte + 2][reihe + 2] == spieler && spielFeld[spalte + 3][reihe + 3] == spieler) {
+        for (int columnCheck = 0; columnCheck <= 2; columnCheck++)  //Diagonal
+            for (int rowCheck = 0; rowCheck <= 3; rowCheck++) {
+                if (playground[columnCheck][rowCheck] == Player && playground[columnCheck + 1][rowCheck + 1] == Player && playground[columnCheck + 2][rowCheck + 2] == Player && playground[columnCheck + 3][rowCheck + 3] == Player) {
                     hasWon = true;
                     break;
                 }
             }
 
 
-        for (int spalte = 0; spalte < 3; spalte++) {
-            for (int reihe = 6; reihe > 2; reihe--) {
-                if (spielFeld[spalte][reihe] == spieler && spielFeld[spalte + 1][reihe - 1] == spieler && spielFeld[spalte + 2][reihe - 2] == spieler && spielFeld[spalte + 3][reihe - 3] == spieler) {
+        for (int columnCheck = 0; columnCheck < 3; columnCheck++) {
+            for (int rowCheck = 6; rowCheck > 2; rowCheck--) {
+                if (playground[columnCheck][rowCheck] == Player && playground[columnCheck + 1][rowCheck - 1] == Player && playground[columnCheck + 2][rowCheck - 2] == Player && playground[columnCheck + 3][rowCheck - 3] == Player) {
                     hasWon = true;
                     break;
                 }
             }
         }
 
-        if (spieler == 1) {
-            System.out.println(player1.getName() + " hat gewonnen");
+        if (Player == 1) {
+            System.out.println(player1.getName() + " has Won");
         } else {
-            System.out.println(player2.getName() + " hat gewonnen");
+            System.out.println(player2.getName() + " has Won");
         }
 
         if (hasWon) {
 
-            System.out.println("Wenn du Weiterspielen möchtest drücke (0) zum Beenden drücke die (1)");
-            String EingabeEnde = systemInputScanner.nextLine();
-            int eingabe = Integer.parseInt(EingabeEnde);
-            if (eingabe == 1) {
+            System.out.println("If you wanna play again type (0) to quit type (1)");
+            String inputStop = systemInputScanner.nextLine();
+
+            int newRound;
+
+            newRound = Integer.parseInt(inputStop);
+
+            if (newRound == 1) {
                 System.exit(0);
-            } else if (eingabe == 0) {
+            } else if (newRound == 0) {
 
-                for (int reihe = 0; reihe < spielFeld.length; reihe++) {
-                    for (int spalte = 0; spalte < spielFeld[reihe].length; spalte++) {
-                        spielFeld[reihe][spalte] = 0;
-                        spalteFuellstand[spalte] = 0 ;
-
+                for (int resetRow = 0; resetRow < playground.length; resetRow++) {
+                    for (int resetColumn = 0; resetColumn < playground[resetRow].length; resetColumn++) {
+                        playground[resetRow][resetColumn] = 0;
+                        columnFillLevel[resetColumn] = 0;
                     }
                 }
-                spalte = 0;
+                column = 0;
+            } else {
+                System.out.println();
+                System.out.println(" If you wanna play again type (0) to quit type (1)!!!");
             }
         }
     }
