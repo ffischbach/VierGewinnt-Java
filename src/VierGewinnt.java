@@ -2,32 +2,29 @@ import java.util.Scanner;
 
 public class VierGewinnt {
     static int[][] playground = new int[6][7];
-    static int rows = playground.length;
-    static int columns = 7;
 
     static int[] columnFillLevel = new int[7];
 
     static boolean playerOne = true;
 
     static int column = 0;
-    static int rowCounter;
-    static int columnCounter;
+
     static Player player1 = new Player();
     static Player player2 = new Player();
 
 
-    public static void main(String[] args) {
-        for (int i = 0; i < 1; i++) {
-            playerDefinition();
-        }
 
+    public static void main(String[] args) {
+
+        new Playfield ();
+        Playfield playfield = new Playfield();
+        playerDefinition();
 
         while (true) {
-            printField();
             chooseColumn();
             playerRotation();
-            setToken();
-            printField();
+            playfield.setToken(playerOne, column);
+            playfield.printField(player1, player2);
             winCondition();
 
         }
@@ -52,37 +49,6 @@ public class VierGewinnt {
         player2.setToken(tokenPlayer2);
     }
 
-
-    public static void printField() {
-
-
-        System.out.println("|   |   |   |   |   |   |   |");
-        System.out.println("| 1 | 2 | 3 | 4 | 5 | 6 | 7 |");
-        System.out.println("|___|___|___|___|___|___|___|");
-
-        for (rowCounter = 0; rowCounter < rows; rowCounter++) {
-            System.out.println("|   |   |   |   |   |   |   |");
-
-            for (columnCounter = 0; columnCounter < columns; columnCounter++) {
-
-                if (playground[rowCounter][columnCounter] == 0) {
-                    System.out.print("| " + " " + " ");
-                } else if (playground[rowCounter][columnCounter] == 1) {
-                    System.out.print("| " + player1.getToken() + " ");
-                } else if (playground[rowCounter][columnCounter] == 2) {
-                    System.out.print("| " + player2.getToken() + " ");
-                }
-
-            }
-
-            System.out.print("|");
-            System.out.println();
-            System.out.println("|___|___|___|___|___|___|___|");
-        }
-
-        System.out.println();
-    }
-
     private static void playerRotation() {
 
         playerOne = !playerOne;
@@ -95,10 +61,10 @@ public class VierGewinnt {
         String input;
 
         if (playerOne) {
-            System.out.print(player2.getName() + " please choose your column : ");
+            System.out.print(player1.getName() + " please choose your column : ");
             input = systemInputScanner.nextLine();
         } else {
-            System.out.println(player1.getName() + " please choose your column : ");
+            System.out.println(player2.getName() + " please choose your column : ");
             input = systemInputScanner.nextLine();
         }
 
@@ -120,16 +86,6 @@ public class VierGewinnt {
         }
     }
 
-    public static void setToken() {
-        int startHeight = 5;
-        int heightNewToken = startHeight - columnFillLevel[column];
-        if (playerOne) {
-            playground[heightNewToken][column] = 1;
-        } else {
-            playground[heightNewToken][column] = 2;
-        }
-        columnFillLevel[column] = columnFillLevel[column] + 1;
-    }
 
     public static void winCondition() {
         Scanner systemInputScanner = new Scanner(System.in);
@@ -178,13 +134,13 @@ public class VierGewinnt {
             }
         }
 
-        if (Player == 1) {
-            System.out.println(player1.getName() + " has Won");
-        } else {
-            System.out.println(player2.getName() + " has Won");
-        }
-
         if (hasWon) {
+
+            if (Player == 1) {
+                System.out.println(player1.getName() + " has Won");
+            } else {
+                System.out.println(player2.getName() + " has Won");
+            }
 
             System.out.println("If you wanna play again type (0) to quit type (1)");
             String inputStop = systemInputScanner.nextLine();
