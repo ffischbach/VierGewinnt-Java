@@ -3,19 +3,28 @@ public class Playfield {
     final int ROWS = 6;
     final int COLUMNS = 7;
 
-    int[][] playgroundSize = new int[ROWS][COLUMNS];
+    int[][] playground = new int[ROWS][COLUMNS];
     int[] columnFillLevel = new int[COLUMNS];
-    static int rowCounter;
 
-    static int columnCounter;
+    static int rowCounter;
+    public static int columnCounter;
+
+
+    public int[][] getPlayground() {
+        return playground;
+    }
+
+    public boolean isColumnFull(int column) {
+        return columnFillLevel[column] > 5;
+    }
 
     public void setToken(boolean playerOne, int column) {
         int startHeight = 5;
         int heightNewToken = startHeight - columnFillLevel[column];
         if (playerOne) {
-            playgroundSize[heightNewToken][column] = 1;
+            playground[heightNewToken][column] = 1;
         } else {
-            playgroundSize[heightNewToken][column] = 2;
+            playground[heightNewToken][column] = 2;
         }
         columnFillLevel[column] = columnFillLevel[column] + 1;
     }
@@ -32,11 +41,11 @@ public class Playfield {
 
             for (columnCounter = 0; columnCounter < COLUMNS; columnCounter++) {
 
-                if (playgroundSize[rowCounter][columnCounter] == 0) {
+                if (playground[rowCounter][columnCounter] == 0) {
                     System.out.print("| " + " " + " ");
-                } else if (playgroundSize[rowCounter][columnCounter] == 1) {
+                } else if (playground[rowCounter][columnCounter] == 1) {
                     System.out.print("| " + player1.getToken() + " ");
-                } else if (playgroundSize[rowCounter][columnCounter] == 2) {
+                } else if (playground[rowCounter][columnCounter] == 2) {
                     System.out.print("| " + player2.getToken() + " ");
                 }
 
