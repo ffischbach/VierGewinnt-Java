@@ -6,6 +6,7 @@ public class Playfield {
     int[][] playground = new int[ROWS][COLUMNS];
     int[] columnFillLevel = new int[COLUMNS];
 
+    int startHeight = 5;
     static int rowCounter;
     public static int columnCounter;
 
@@ -19,7 +20,6 @@ public class Playfield {
     }
 
     public void setToken(boolean playerOne, int column) {
-        int startHeight = 5;
         int heightNewToken = startHeight - columnFillLevel[column];
         if (playerOne) {
             playground[heightNewToken][column] = 1;
@@ -57,5 +57,9 @@ public class Playfield {
         }
 
         System.out.println();
+    }
+    public void resetColumnFillLevel(){
+
+        columnFillLevel = new int[COLUMNS];
     }
 }

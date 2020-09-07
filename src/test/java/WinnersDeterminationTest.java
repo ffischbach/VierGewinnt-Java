@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WinnersDeterminationTest {
 
-
     @Test
     void testEmptyPlayfieldShouldHasNoWinner() {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
@@ -23,7 +22,7 @@ class WinnersDeterminationTest {
     }
 
     @Test
-    void fourVerikalShouldHasWinner() {
+    void fourVerticalShouldHasWinner() {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
         Playfield playfield = new Playfield();
         playfield.setToken(true, 0);
