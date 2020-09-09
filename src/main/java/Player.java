@@ -1,9 +1,12 @@
+import java.util.Scanner;
+
 public class Player {
     String name;
     String token;
 
-    Player(){
-
+    Player(String name, String token){
+        setName(name);
+        setToken(token);
     }
 
     public String getName(){

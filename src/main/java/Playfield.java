@@ -6,6 +6,7 @@ public class Playfield {
     int[][] playground = new int[ROWS][COLUMNS];
     int[] columnFillLevel = new int[COLUMNS];
 
+
     int startHeight = 5;
     static int rowCounter;
     public static int columnCounter;
@@ -44,9 +45,9 @@ public class Playfield {
                 if (playground[rowCounter][columnCounter] == 0) {
                     System.out.print("| " + " " + " ");
                 } else if (playground[rowCounter][columnCounter] == 1) {
-                    System.out.print("| " + player1.getToken() + " ");
+                    System.out.print("| " + player1.token + " ");
                 } else if (playground[rowCounter][columnCounter] == 2) {
-                    System.out.print("| " + player2.getToken() + " ");
+                    System.out.print("| " + player2.token + " ");
                 }
 
             }

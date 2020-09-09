@@ -1,9 +1,6 @@
 public class WinnersDetermination {
     static boolean hasWon = false;
 
-    static Player player1 = new Player();
-    static Player player2 = new Player();
-
     public boolean determinateWinner(Playfield playfield, int playerId) {
         return checkVertical(playfield, playerId) || checkHorizontal(playfield, playerId) || checkDiagonalRight(playfield, playerId) || checkDiagonalLeft(playfield, playerId);
     }

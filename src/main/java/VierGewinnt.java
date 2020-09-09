@@ -8,45 +8,31 @@ public class VierGewinnt {
 
     static WinnersDetermination winnersDetermination = new WinnersDetermination();
 
-    static Player player1 = new Player();
-    static Player player2 = new Player();
+    static Player player1;
+    static Player player2;
 
-
-    public static void playerDefinition() {
-        Scanner systemInputScanner = new Scanner(System.in);
-        System.out.println("Player 1 Please type your Name:");
-        String namePlayer1 = systemInputScanner.nextLine();
-        player1.setName(namePlayer1);
-
-        System.out.println("Player 2 Please type your Name:");
-        String namePlayer2 = systemInputScanner.nextLine();
-        player2.setName(namePlayer2);
-
-        System.out.println(player1.getName() + " Please set your Token:");
-        String tokenPlayer1 = systemInputScanner.nextLine();
-        player1.setToken(tokenPlayer1);
-
-        System.out.println(player2.getName() + " Please set your Token:");
-        String tokenPlayer2 = systemInputScanner.nextLine();
-        player2.setToken(tokenPlayer2);
+    VierGewinnt(Player player1, Player player2){
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
-    private static void playerRotation() {
+    public static boolean playerRotation() {
 
         playerOne = !playerOne;
+        return playerOne;
     }
 
-    public static void chooseColumn(Playfield playfield) {
+    public int chooseColumn(Playfield playfield) {
 
         Scanner systemInputScanner = new Scanner(System.in);
 
         String input;
 
         if (playerOne) {
-            System.out.print(player1.getName() + " please choose your column : ");
+            System.out.print(player1.name + " please choose your column : ");
             input = systemInputScanner.nextLine();
         } else {
-            System.out.println(player2.getName() + " please choose your column : ");
+            System.out.println(player2.name + " please choose your column : ");
             input = systemInputScanner.nextLine();
         }
 
@@ -66,6 +52,8 @@ public class VierGewinnt {
             System.out.println("Column is full!!!");
             chooseColumn(playfield);
         }
+
+        return column;
     }
 
 
@@ -79,12 +67,12 @@ public class VierGewinnt {
         if (winnersDetermination.determinateWinner(playfield, playerId)) {
 
             if (playerId == 1) {
-                System.out.println(player1.getName() + " has Won");
+                System.out.println(player1.name + " has Won");
             } else {
-                System.out.println(player2.getName() + " has Won");
+                System.out.println(player2.name + " has Won");
             }
 
-            System.out.println("If you wanna play again type (0) to quit type (1)");
+            System.out.println("If you want to play again type (0) to quit type (1)");
             String inputStop = systemInputScanner.nextLine();
 
             int newRound = Integer.parseInt(inputStop);
