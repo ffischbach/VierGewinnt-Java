@@ -1,13 +1,13 @@
 public class WinnersDetermination {
     static boolean hasWon = false;
 
-    public boolean determinateWinner(Playfield playfield, int playerId) {
+    public boolean determinateWinner(PlayField playfield, int playerId) {
         return checkVertical(playfield, playerId) || checkHorizontal(playfield, playerId) || checkDiagonalRight(playfield, playerId) || checkDiagonalLeft(playfield, playerId);
     }
 
-    public boolean checkHorizontal(Playfield playfield, int playerId) {
+    public boolean checkHorizontal(PlayField playfield, int playerId) {
         int[][] playground = playfield.getPlayground();
-        for (int spalte = 0; spalte <= 5; spalte++) //Horizontal
+        for (int spalte = 0; spalte <= 5; spalte++)
             for (int reihe = 0; reihe <= 3; reihe++) {
                 if (playground[spalte][reihe] == playerId && playground[spalte][reihe + 1] == playerId && playground[spalte][reihe + 2] == playerId && playground[spalte][reihe + 3] == playerId) {
                     hasWon = true;
@@ -17,7 +17,7 @@ public class WinnersDetermination {
         return false;
     }
 
-    public boolean checkVertical(Playfield playfield, int playerId) {
+    public boolean checkVertical(PlayField playfield, int playerId) {
         int[][] playground = playfield.getPlayground();
 
         for (int spalte = 0; spalte <= 2; spalte++)
@@ -30,7 +30,7 @@ public class WinnersDetermination {
         return false;
     }
 
-    public boolean checkDiagonalRight(Playfield playfield, int playerId) {
+    public boolean checkDiagonalRight(PlayField playfield, int playerId) {
         int[][] playground = playfield.getPlayground();
         for (int spalte = 0; spalte <= 2; spalte++)  //Diagonal
             for (int reihe = 0; reihe <= 3; reihe++) {
@@ -43,7 +43,7 @@ public class WinnersDetermination {
         return false;
     }
 
-    public boolean checkDiagonalLeft(Playfield playfield, int playerId) {
+    public boolean checkDiagonalLeft(PlayField playfield, int playerId) {
         int[][] playground = playfield.getPlayground();
 
 

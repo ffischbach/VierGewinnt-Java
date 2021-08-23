@@ -1,4 +1,4 @@
-public class Playfield {
+public class PlayField {
 
     final int ROWS = 6;
     final int COLUMNS = 7;
@@ -31,7 +31,6 @@ public class Playfield {
     }
 
     public void printField(Player player1, Player player2) {
-
 
         System.out.println("|   |   |   |   |   |   |   |");
         System.out.println("| 1 | 2 | 3 | 4 | 5 | 6 | 7 |");

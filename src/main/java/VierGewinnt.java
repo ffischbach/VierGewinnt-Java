@@ -12,17 +12,16 @@ public class VierGewinnt {
     static Player player2;
 
     VierGewinnt(Player player1, Player player2){
-        this.player1 = player1;
-        this.player2 = player2;
+        VierGewinnt.player1 = player1;
+        VierGewinnt.player2 = player2;
     }
 
-    public static boolean playerRotation() {
+    public static void playerRotation() {
 
         playerOne = !playerOne;
-        return playerOne;
     }
 
-    public int chooseColumn(Playfield playfield) {
+    public int chooseColumn(PlayField playfield) {
 
         Scanner systemInputScanner = new Scanner(System.in);
 
@@ -30,11 +29,10 @@ public class VierGewinnt {
 
         if (playerOne) {
             System.out.print(player1.name + " please choose your column : ");
-            input = systemInputScanner.nextLine();
         } else {
             System.out.println(player2.name + " please choose your column : ");
-            input = systemInputScanner.nextLine();
         }
+        input = systemInputScanner.nextLine();
 
         try {
             column = Integer.parseInt(input) - 1;
@@ -57,7 +55,7 @@ public class VierGewinnt {
     }
 
 
-    public static void winCondition(Playfield playfield) {
+    public static void winCondition(PlayField playfield) {
         int[][] playground = playfield.getPlayground();
 
         Scanner systemInputScanner = new Scanner(System.in);

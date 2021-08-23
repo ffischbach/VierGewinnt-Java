@@ -7,12 +7,12 @@ class WinnersDeterminationTest {
     @Test
     void testEmptyPlayfieldShouldHasNoWinner() {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
-        assertFalse(winnersDetermination.determinateWinner(new Playfield(), 1));
+        assertFalse(winnersDetermination.determinateWinner(new PlayField(), 1));
     }
     @Test
     void fourHorizontalShouldHasWinner() {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
-        Playfield playfield = new Playfield();
+        PlayField playfield = new PlayField();
         playfield.setToken(true, 0);
         playfield.setToken(true, 0);
         playfield.setToken(true, 0);
@@ -24,7 +24,7 @@ class WinnersDeterminationTest {
     @Test
     void fourVerticalShouldHasWinner() {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
-        Playfield playfield = new Playfield();
+        PlayField playfield = new PlayField();
         playfield.setToken(true, 0);
         playfield.setToken(true, 1);
         playfield.setToken(true, 2);
@@ -35,7 +35,7 @@ class WinnersDeterminationTest {
     @Test
     void fourDiagonalRightShouldHasWinner() {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
-        Playfield playfield = new Playfield();
+        PlayField playfield = new PlayField();
         playfield.setToken(true, 1);
         playfield.setToken(false,2);
         playfield.setToken(true, 2);
@@ -54,7 +54,7 @@ class WinnersDeterminationTest {
         WinnersDetermination winnersDetermination = new WinnersDetermination();
 
 
-        Playfield playfield = new Playfield();
+        PlayField playfield = new PlayField();
         playfield.setToken(false, 1);
         playfield.setToken(false, 1);
         playfield.setToken(false, 1);

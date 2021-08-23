@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Player {
     String name;
     String token;
@@ -16,6 +14,7 @@ public class Player {
     public void setName(String name){
         this.name = name;
     }
+
     public String getToken(){
         return this.token;
     }
